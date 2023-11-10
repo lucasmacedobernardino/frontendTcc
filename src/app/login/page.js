@@ -25,7 +25,9 @@ export default function Login() {
                 alert("Login Efetuado com sucesso!")
                 // Se a requisição for bem-sucedida, redireciona para outra página ou faz algo com os dados
                 const data = await response.json();
+                localStorage.setItem(JSON.stringify(data))
                 // Redirecionar para a dashboard, por exemplo
+
                 router.push('/');
             } else {
                 console.log(response)

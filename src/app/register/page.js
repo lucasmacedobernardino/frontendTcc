@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 export default function Register() {
     const router = useRouter();
+    
     return (
     
         <div className="flex items-center justify-center h-screen bg-[#FFF] flex-col">

@@ -5,7 +5,8 @@ import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
-
+  const token = localStorage.getItem("tokenLogin")
+  console.log(token)
   useEffect(() => {
     // Define um temporizador para redirecionar depois de 3 segundos
     const timer = setTimeout(() => {
