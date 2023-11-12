@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 export default function Login() {
     const router = useRouter();
+    localStorage.clear()
     const handleSubmit = async (event) => {
         event.preventDefault();
         
         const email = event.target.email.value;
         const senha = event.target.senha.value;
         const endpoint = 'http://localhost:3333/usuarios/login';
-        
         try {
             const response = await fetch(endpoint, {
                 method: 'POST',
@@ -20,17 +20,31 @@ export default function Login() {
                 },
                 body: JSON.stringify({ email, senha }),
             });
-            console.log(response)
             if (response.ok) {
                 alert("Login Efetuado com sucesso!")
                 // Se a requisição for bem-sucedida, redireciona para outra página ou faz algo com os dados
                 const data = await response.json();
-                localStorage.setItem(JSON.stringify(data))
+                localStorage.setItem( "tokenUser" , JSON.stringify(data))
+                const token = JSON.parse(localStorage.getItem('tokenUser'))
+                try{
+                    const usuario = await fetch(`http://localhost:3333/usuarios/${token.user.id}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                    if (usuario.ok){
+                        const data = await usuario.json();
+                        localStorage.setItem("usuario", JSON.stringify(data))
+                    }
+                }catch(error){
+                    console.error(error)
+                }
                 // Redirecionar para a dashboard, por exemplo
-
-                router.push('/');
+                if(localStorage.getItem("tokenUser") && localStorage.getItem("usuario")){
+                    router.push('/home')
+                }
             } else {
-                console.log(response)
                 alert("E-mail ou senha incorretos!")
                 // Tratar erros de resposta (como email ou senha incorretos)
                 console.error('Falha na requisição:', response.statusText);

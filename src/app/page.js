@@ -5,13 +5,12 @@ import Image from 'next/image';
 
 export default function Home() {
   const router = useRouter();
-  const token = localStorage.getItem("tokenLogin")
-  console.log(token)
+
   useEffect(() => {
     // Define um temporizador para redirecionar depois de 3 segundos
     const timer = setTimeout(() => {
       router.push('/login'); // Substitua '/login' pelo caminho da sua página de login
-    }, 3000);
+    }, 1000);
 
     // Limpa o temporizador se o componente for desmontado antes do tempo expirar
     return () => clearTimeout(timer);

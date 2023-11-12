@@ -7,7 +7,6 @@ export default function Register() {
     const router = useRouter();
     
     return (
-    
         <div className="flex items-center justify-center h-screen bg-[#FFF] flex-col">
             <Image src="/assets/education-white.svg" width={120} height={120} className='bg-[#735ED9] align-middle' />
             <h1 className="text-center text-[#735ED9] text-5xl my-1 font-bold italic">duolfes</h1>
