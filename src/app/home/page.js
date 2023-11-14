@@ -1,10 +1,34 @@
 "use client"
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 export default function Home() {
+    useEffect(() => {
+        // Certifique-se de que o usuário esteja definido antes de fazer a chamada
+        if (usuario && usuario.id) {
+            vidasPontuacao();
+        }
+    }, []);
+    const [vidaPonto, setVidaPonto] = useState({"vidas": 0, "pontuacao_ano": 0})
+    const ip = "http://3.17.204.62:3333"
     const router = useRouter();
     const usuario = JSON.parse(localStorage.getItem("usuario"))
+    async function vidasPontuacao(){
+        try {
+            const response = await fetch(`${ip}/usuarios/${usuario.id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setVidaPonto({"vidas": data.vidas, "pontuacao_ano": data.pontuacao_ano});
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
     function primeiroNome(nomeCompleto) {
         return nomeCompleto.split(' ')[0];
     }
@@ -19,11 +43,11 @@ export default function Home() {
                         <div className='flex flex-col items-start justify-center'>
                             <h1 className="text-2xl font-bold">Olá {primeiroNome(usuario.nome)}</h1>
                             <hr/>
-                            <h1 className="text-2xl font-bold text-[#f5ba3d]">Pontuação {usuario.pontuacao_ano}</h1>
+                            <h1 className="text-2xl font-bold text-[#f5ba3d]">Pontuação {vidaPonto.pontuacao_ano}</h1>
                         </div>
                         <div className='flex flex-col items-center justify-center pl-20'>
                             <Image src="/assets/heartRed.svg" width={32} height={32} />
-                            <h2 className="text-lg font-bold">{usuario.vidas}</h2>
+                            <h2 className="text-lg font-bold">{vidaPonto.vidas}</h2>
                         </div>
                     </div>
 
