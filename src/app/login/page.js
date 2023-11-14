@@ -8,10 +8,10 @@ export default function Login() {
     localStorage.clear()
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+        const ip = "http://3.131.160.31:3333"
         const email = event.target.email.value;
         const senha = event.target.senha.value;
-        const endpoint = 'http://localhost:3333/usuarios/login';
+        const endpoint = `${ip}/usuarios/login`;
         try {
             const response = await fetch(endpoint, {
                 method: 'POST',
@@ -27,7 +27,7 @@ export default function Login() {
                 localStorage.setItem( "tokenUser" , JSON.stringify(data))
                 const token = JSON.parse(localStorage.getItem('tokenUser'))
                 try{
-                    const usuario = await fetch(`http://localhost:3333/usuarios/${token.user.id}`, {
+                    const usuario = await fetch(`${ip}/usuarios/${token.user.id}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -45,7 +45,8 @@ export default function Login() {
                     router.push('/home')
                 }
             } else {
-                alert("E-mail ou senha incorretos!")
+                const errorData = await response.json()
+                alert(errorData.message)
                 // Tratar erros de resposta (como email ou senha incorretos)
                 console.error('Falha na requisição:', response.statusText);
             }

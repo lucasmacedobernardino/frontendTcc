@@ -19,7 +19,7 @@ export default function Home() {
                         <div className='flex flex-col items-start justify-center'>
                             <h1 className="text-2xl font-bold">Olá {primeiroNome(usuario.nome)}</h1>
                             <hr/>
-                            <h1 className="text-2xl font-bold text-[#eaf645]">Pontuação {usuario.pontuacao_ano}</h1>
+                            <h1 className="text-2xl font-bold text-[#f5ba3d]">Pontuação {usuario.pontuacao_ano}</h1>
                         </div>
                         <div className='flex flex-col items-center justify-center pl-20'>
                             <Image src="/assets/heartRed.svg" width={32} height={32} />
