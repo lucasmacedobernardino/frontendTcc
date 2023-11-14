@@ -8,7 +8,7 @@ export default function Login() {
     localStorage.clear()
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const ip = "http://3.131.160.31:3333"
+        const ip = "http://3.17.204.62:3333"
         const email = event.target.email.value;
         const senha = event.target.senha.value;
         const endpoint = `${ip}/usuarios/login`;
