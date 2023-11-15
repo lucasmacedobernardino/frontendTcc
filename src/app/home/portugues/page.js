@@ -82,6 +82,9 @@ export default function Portugues() {
             if (response.ok) {
                 const responseData = await response.json();
                 alert(responseData.message);
+                if(responseData.message == "Resposta Incorreta!"){
+                    <h1>RESPOSTA INCORRETA</h1>
+                }
                 router.push("/home")
                 // Outras ações após a resposta bem-sucedida...
             } else {

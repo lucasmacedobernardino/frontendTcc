@@ -10,12 +10,6 @@ export default function Home() {
     const router = useRouter();
     const [usuario, setUsuario] = useState(null);
 
-
-
-
-    
-
-
     useEffect(() => {
         const usuarioData = localStorage.getItem("usuario");
         if (usuarioData) {
@@ -67,7 +61,7 @@ export default function Home() {
                 <div className="flex h-full w-96 flex-col border px-4 py-8 bg-white ">
                     <header className="mb-4 flex items-center font-sans">
                         <div className="ml-3 mr-6 h-16 w-16 rounded-full">
-                            <Image src="/assets/icon-person.svg" width={72} height={72} />
+                            <Image src="/assets/icon-person.svg" width={72} height={72} alt='personIcon'/>
                         </div>
                         <div className='flex justify-between'>
                             <div className='flex flex-col items-start justify-center'>
@@ -76,7 +70,7 @@ export default function Home() {
                                 <h1 className="text-2xl font-bold text-[#f5ba3d]">Pontuação {vidaPonto.pontuacao_ano}</h1>
                             </div>
                             <div className='flex flex-col items-center justify-center pl-20'>
-                                <Image src="/assets/heartRed.svg" width={32} height={32} />
+                                <Image src="/assets/heartRed.svg" width={32} height={32} alt='RedHeart'/>
                                 <h2 className="text-lg font-bold text-black">{vidaPonto.vidas}</h2>
                             </div>
                         </div>
@@ -85,35 +79,35 @@ export default function Home() {
                     <hr className="mb-4" />
                     <div className='flex flex-col'>
                         <Link href="/home/portugues" onClick={(e) => handleNavigation(e, "/home/portugues")} className="mb-14 flex items-center font-sans">
-                            <Image src="/assets/book-stack.svg" width={48} height={48} className='ml-3 mr-6' />
+                            <Image src="/assets/book-stack.svg" width={48} height={48} className='ml-3 mr-6' alt='Português'/>
                             <h1 className="text-2xl font-bold text-black">Língua Portuguesa</h1>
                         </Link>
                         <div className="mb-14 flex items-center font-sans">
-                            <Image src="/assets/equation.svg" width={48} height={48} className='ml-3 mr-6' />
+                            <Image src="/assets/equation.svg" width={48} height={48} className='ml-3 mr-6' alt='Matemática'/>
                             <h1 className="text-2xl font-bold text-black">Matemática</h1>
                         </div>
                         <div className="mb-14 flex items-center font-sans">
-                            <Image src="/assets/history.svg" width={48} height={48} className='ml-3 mr-6' />
+                            <Image src="/assets/history.svg" width={48} height={48} className='ml-3 mr-6' alt='História'/>
                             <h1 className="text-2xl font-bold text-black">História</h1>
                         </div>
                         <div className="mb-14 flex items-center font-sans">
-                            <Image src="/assets/chemistry.svg" width={48} height={48} className='ml-3 mr-6' />
+                            <Image src="/assets/chemistry.svg" width={48} height={48} className='ml-3 mr-6' alt='Ciências'/>
                             <h1 className="text-2xl font-bold text-black">Ciências</h1>
                         </div>
                         <div className="mb-14 flex items-center font-sans">
-                            <Image src="/assets/earth.svg" width={48} height={48} className='ml-3 mr-6' />
+                            <Image src="/assets/earth.svg" width={48} height={48} className='ml-3 mr-6' alt='Geografia'/>
                             <h1 className="text-2xl font-bold text-black">Geografia</h1>
                         </div>
                         <div className="mb-4 flex items-center font-sans">
-                            <Image src="/assets/dice.svg" width={48} height={48} className='ml-3 mr-6' />
+                            <Image src="/assets/dice.svg" width={48} height={48} className='ml-3 mr-6' alt='Aleatório'/>
                             <h1 className="text-2xl font-bold text-black">Aleatório</h1>
                         </div>
                     </div>
                 </div>
                 <footer className="flex h-full w-full justify-between rounded-b-md bg-[#E8E8EA] p-4 relative bottom-0">
-                    <Image src="/assets/house_icon.svg" width={48} height={48} className='ml-3 mr-6' />
-                    <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' />
-                    <Image src="/assets/coroa.svg" width={48} height={48} className='ml-3 mr-6' />
+                    <Image src="/assets/house_icon.svg" width={48} height={48} className='ml-3 mr-6' alt='House'/>
+                    <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' alt='Podium'/>
+                    <Image src="/assets/coroa.svg" width={48} height={48} className='ml-3 mr-6' alt='Crown'/>
                 </footer>
             </div>
     )
