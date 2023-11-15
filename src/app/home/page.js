@@ -71,13 +71,13 @@ export default function Home() {
                         </div>
                         <div className='flex justify-between'>
                             <div className='flex flex-col items-start justify-center'>
-                                <h1 className="text-2xl font-bold">Olá {primeiroNome(usuario.nome)}</h1>
+                                <h1 className="text-2xl font-bold text-black">Olá {primeiroNome(usuario.nome)}</h1>
                                 <hr />
                                 <h1 className="text-2xl font-bold text-[#f5ba3d]">Pontuação {vidaPonto.pontuacao_ano}</h1>
                             </div>
                             <div className='flex flex-col items-center justify-center pl-20'>
                                 <Image src="/assets/heartRed.svg" width={32} height={32} />
-                                <h2 className="text-lg font-bold">{vidaPonto.vidas}</h2>
+                                <h2 className="text-lg font-bold text-black">{vidaPonto.vidas}</h2>
                             </div>
                         </div>
 
@@ -86,27 +86,27 @@ export default function Home() {
                     <div className='flex flex-col'>
                         <Link href="/home/portugues" onClick={(e) => handleNavigation(e, "/home/portugues")} className="mb-14 flex items-center font-sans">
                             <Image src="/assets/book-stack.svg" width={48} height={48} className='ml-3 mr-6' />
-                            <h1 className="text-2xl font-bold">Língua Portuguesa</h1>
+                            <h1 className="text-2xl font-bold text-black">Língua Portuguesa</h1>
                         </Link>
                         <div className="mb-14 flex items-center font-sans">
                             <Image src="/assets/equation.svg" width={48} height={48} className='ml-3 mr-6' />
-                            <h1 className="text-2xl font-bold">Matemática</h1>
+                            <h1 className="text-2xl font-bold text-black">Matemática</h1>
                         </div>
                         <div className="mb-14 flex items-center font-sans">
                             <Image src="/assets/history.svg" width={48} height={48} className='ml-3 mr-6' />
-                            <h1 className="text-2xl font-bold">História</h1>
+                            <h1 className="text-2xl font-bold text-black">História</h1>
                         </div>
                         <div className="mb-14 flex items-center font-sans">
                             <Image src="/assets/chemistry.svg" width={48} height={48} className='ml-3 mr-6' />
-                            <h1 className="text-2xl font-bold">Ciências</h1>
+                            <h1 className="text-2xl font-bold text-black">Ciências</h1>
                         </div>
                         <div className="mb-14 flex items-center font-sans">
                             <Image src="/assets/earth.svg" width={48} height={48} className='ml-3 mr-6' />
-                            <h1 className="text-2xl font-bold">Geografia</h1>
+                            <h1 className="text-2xl font-bold text-black">Geografia</h1>
                         </div>
                         <div className="mb-4 flex items-center font-sans">
                             <Image src="/assets/dice.svg" width={48} height={48} className='ml-3 mr-6' />
-                            <h1 className="text-2xl font-bold">Aleatório</h1>
+                            <h1 className="text-2xl font-bold text-black">Aleatório</h1>
                         </div>
                     </div>
                 </div>

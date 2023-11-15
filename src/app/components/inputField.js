@@ -11,7 +11,7 @@ const InputField = ({ id, label, type, placeholder, value, onChange, name }) => 
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="border-b text-sm"
+          className="border-b text-sm text-black"
           name={name}
         />
       </div>
