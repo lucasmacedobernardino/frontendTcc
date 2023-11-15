@@ -85,10 +85,10 @@ export default function Home() {
                             <Image src="/assets/book-stack.svg" width={48} height={48} className='ml-3 mr-6' alt='Português'/>
                             <h1 className="text-2xl font-bold text-black">Língua Portuguesa</h1>
                         </Link>
-                        <div className="mb-14 flex items-center font-sans">
+                        <Link href="/home/matematica" onClick={(e) => handleNavigation(e, "/home/matematica")} className="mb-14 flex items-center font-sans">
                             <Image src="/assets/equation.svg" width={48} height={48} className='ml-3 mr-6' alt='Matemática'/>
                             <h1 className="text-2xl font-bold text-black">Matemática</h1>
-                        </div>
+                        </Link>
                         <div className="mb-14 flex items-center font-sans">
                             <Image src="/assets/history.svg" width={48} height={48} className='ml-3 mr-6' alt='História'/>
                             <h1 className="text-2xl font-bold text-black">História</h1>
