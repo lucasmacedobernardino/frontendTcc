@@ -93,10 +93,10 @@ export default function Home() {
                             <Image src="/assets/history.svg" width={48} height={48} className='ml-3 mr-6' alt='História'/>
                             <h1 className="text-2xl font-bold text-black">História</h1>
                         </Link>
-                        <div className="mb-14 flex items-center font-sans">
+                        <Link href="/home/ciencias" onClick={(e) => handleNavigation(e, "/home/ciencias")} className="mb-14 flex items-center font-sans">
                             <Image src="/assets/chemistry.svg" width={48} height={48} className='ml-3 mr-6' alt='Ciências'/>
                             <h1 className="text-2xl font-bold text-black">Ciências</h1>
-                        </div>
+                        </Link>
                         <div className="mb-14 flex items-center font-sans">
                             <Image src="/assets/earth.svg" width={48} height={48} className='ml-3 mr-6' alt='Geografia'/>
                             <h1 className="text-2xl font-bold text-black">Geografia</h1>
