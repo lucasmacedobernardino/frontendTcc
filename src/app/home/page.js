@@ -3,7 +3,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Loading from '../components/loading';
 export default function Home() {
+    const [loading, setLoading] = useState(true)
     const handleNavigation = (e, path) => {
         // Impede a ação padrão do Link
         e.preventDefault();
@@ -23,6 +25,7 @@ export default function Home() {
         if (usuario && usuario.id) {
             vidasPontuacao();
         }
+        setLoading(false)
     }, []);
     const [vidaPonto, setVidaPonto] = useState({"vidas": 0, "pontuacao_ano": 0})
     const ip = "http://3.17.204.62:3333"
@@ -48,6 +51,7 @@ export default function Home() {
         return nomeCompleto.split(' ')[0];
     }
     return (
+        loading ? <Loading/> :
         <div className='absolute'>
             <div className="flex h-full w-96 flex-col border px-4 py-8 bg-white ">
                 <header className="mb-4 flex items-center font-sans">
