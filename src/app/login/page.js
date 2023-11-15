@@ -2,14 +2,17 @@
 import Image from 'next/image';
 import InputField from '../components/inputField';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
+ useEffect(()=>{
+    localStorage.clear()
+ }, [])
 export default function Login() {
     const loginSuccess = () => toast.success("Login efetuado com Sucesso!");
     const loginFailed = () => toast.error("Senha Incorreta!");
     const router = useRouter();
-    localStorage.clear()
     const handleSubmit = async (event) => {
         event.preventDefault();
         const ip = "http://3.17.204.62:3333"
