@@ -2,8 +2,14 @@
 import Image from 'next/image';
 import InputField from '../components/inputField';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 export default function Register() {
+    const usuarioCriado = ()=> toast.success("Usuário criado com Sucesso!")
+    const mesmaSenha = ()=> toast.warning("Digite a mesma senha!")
+    const emailJaCadastrado = ()=> toast.warning("Email já cadastrado!")
+    const emailInvalido = ()=> toast.warning("Email Inválido!")
     const handleSubmit = async (event) => {
         event.preventDefault();
         const ip = "http://3.17.204.62:3333"
@@ -13,7 +19,7 @@ export default function Register() {
         const senhaConfirm = event.target.senhaConfirm.value;
         const endpoint = `${ip}/usuarios`;
         if(senha != senhaConfirm){
-            alert("Digite a mesma senha !")
+            mesmaSenha()
         }else{
             try {
                 const response = await fetch(endpoint, {
@@ -25,15 +31,21 @@ export default function Register() {
                 });
                 if (response.ok) {
                     const sucessData = await response.json()
-                    alert(sucessData.message)
-                    console.log(sucessData.message)
                     if (sucessData.message == "Email já cadastrado"){
+                        emailJaCadastrado()
                         return
                     }
-                    router.push('/login')
+                    usuarioCriado()
+                    setTimeout(()=>{
+                        router.push('/login')
+                    }, 4000)
+                    
                 } else {
                     const errorData = await response.json()
-                    alert(errorData.message)
+                    if (errorData.message == "Email inválido!"){
+                        emailInvalido()
+                        return
+                    }
                     // Tratar erros de resposta (como email ou senha incorretos)
                     console.error('Falha na requisição:', response.statusText);
                 }
@@ -61,6 +73,18 @@ export default function Register() {
                 </button>
                 <Link href="/" className='text-xs text-[#777]'>Já tem uma conta? <span className='text-[#735ED9]'>Clique aqui</span></Link>
             </form>
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </div>
 
     )
