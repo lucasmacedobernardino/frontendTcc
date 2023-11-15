@@ -2,7 +2,22 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 export default function Home() {
+    const handleNavigation = (e, path) => {
+        // Impede a ação padrão do Link
+        e.preventDefault();
+
+        if (vidaPonto.vidas > 0) {
+            // Se o usuário tiver vidas, prossegue com a navegação
+            router.push(path);
+        } else {
+            // Se não tiver vidas, exibe um alerta
+            alert('Você está sem vidas.');
+        }
+    };
+
+
     useEffect(() => {
         // Certifique-se de que o usuário esteja definido antes de fazer a chamada
         if (usuario && usuario.id) {
@@ -54,10 +69,10 @@ export default function Home() {
                 </header>
                 <hr className="mb-4" />
                 <div className='flex flex-col'>
-                    <div className="mb-14 flex items-center font-sans">
+                    <Link href="/home/portugues" onClick={(e) => handleNavigation(e, "/home/portugues")} className="mb-14 flex items-center font-sans">
                         <Image src="/assets/book-stack.svg" width={48} height={48} className='ml-3 mr-6' />
                         <h1 className="text-2xl font-bold">Língua Portuguesa</h1>
-                    </div>
+                    </Link>
                     <div className="mb-14 flex items-center font-sans">
                         <Image src="/assets/equation.svg" width={48} height={48} className='ml-3 mr-6' />
                         <h1 className="text-2xl font-bold">Matemática</h1>
