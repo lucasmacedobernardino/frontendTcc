@@ -4,7 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Loading from '../components/loading';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Home() {
+    const semVidasNotify = ()=> toast.warning("Você está sem vidas!")
     const [loading, setLoading] = useState(true);
     const [vidaPonto, setVidaPonto] = useState({ vidas: 0, pontuacao_ano: 0 });
     const router = useRouter();
@@ -48,7 +51,7 @@ export default function Home() {
             router.push(path);
         } else {
             // Se não tiver vidas, exibe um alerta
-            alert('Você está sem vidas.');
+            semVidasNotify()
         }
     };
 
@@ -109,6 +112,18 @@ export default function Home() {
                     <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' alt='Podium'/>
                     <Image src="/assets/coroa.svg" width={48} height={48} className='ml-3 mr-6' alt='Crown'/>
                 </footer>
+                <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             </div>
     )
 }

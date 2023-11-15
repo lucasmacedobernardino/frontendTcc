@@ -57,8 +57,6 @@ export default function Login() {
                     }, 2000)
                 }
             } else {
-                const errorData = await response.json()
-                alert(errorData.message)
                 // Tratar erros de resposta (como email ou senha incorretos)
                 console.error('Falha na requisição:', response.statusText);
             }
@@ -83,7 +81,7 @@ export default function Login() {
             </form>
             <ToastContainer
                 position="top-center"
-                autoClose={1000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

@@ -2,7 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Portugues() {
+    const respostaSuccess = () => toast.success("Resposta Correta! Você ganhou 10 pontos!");
+    const respostaFailed = () => toast.error("Resposta Incorreta! Você perdeu uma vida!");
     const router = useRouter();
     const portugues = 1;
     const [questao, setQuestao] = useState({
@@ -81,11 +85,17 @@ export default function Portugues() {
             // Tratar a resposta
             if (response.ok) {
                 const responseData = await response.json();
-                alert(responseData.message);
-                if(responseData.message == "Resposta Incorreta!"){
-                    <h1>RESPOSTA INCORRETA</h1>
-                }
-                router.push("/home")
+                if(responseData.message == "Resposta Correta!"){
+                respostaSuccess()
+                setTimeout(()=>{
+                    router.push("/home")
+                }, 4000)
+            }else {
+                respostaFailed()
+                setTimeout(()=>{
+                    router.push("/home")
+                }, 4000)
+            }
                 // Outras ações após a resposta bem-sucedida...
             } else {
                 const responseData = await response.json();
@@ -125,6 +135,18 @@ export default function Portugues() {
 
     return (
         <div className="max-w-2xl mx-auto p-4">
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <h1 className="text-xl font-bold mb-4">Questão</h1>
             <p className="text-base text-gray-700 leading-relaxed mb-4">
                 {questao.enunciado}
