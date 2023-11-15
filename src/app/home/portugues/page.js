@@ -104,12 +104,12 @@ export default function Portugues() {
             // Convertendo 1-5 para A-E usando ASCII values (65 é 'A' em ASCII)
             const letra = String.fromCharCode(64 + i); // 64 + 1 = 65 -> 'A', etc.
             opcoes.push(
-                <label key={i} className="block mb-2">
+                <label key={i} className="block mb-2 text-black">
                     <input
                         type="radio"
                         name="opcao"
                         value={letra}
-                        className="mr-1 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-[#735ED9] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:bg-[#735ED9] checked:before:bg-[#735ED9] hover:before:opacity-10"
+                        className="mr-1 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-[#735ED9] transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:bg-[#735ED9] checked:before:bg-[#735ED9] hover:before:opacity-10 text-black"
                     />
                     {letra}. {questao[`opcao${i}`]}
                 </label>
@@ -136,7 +136,6 @@ export default function Portugues() {
                         Verificar
                     </button>
                 </div>
-
             </form>
         </div>
     );
