@@ -6,10 +6,11 @@ import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
- useEffect(()=>{
-    localStorage.clear()
- }, [])
+
 export default function Login() {
+    useEffect(()=>{
+        localStorage.clear()
+     }, [])
     const loginSuccess = () => toast.success("Login efetuado com Sucesso!");
     const loginFailed = () => toast.error("Senha Incorreta!");
     const router = useRouter();
