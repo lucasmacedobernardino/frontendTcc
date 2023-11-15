@@ -108,8 +108,12 @@ export default function Home() {
                     </div>
                 </div>
                 <footer className="flex h-full w-full justify-between rounded-b-md bg-[#E8E8EA] p-4 relative bottom-0">
-                    <Image src="/assets/house_icon.svg" width={48} height={48} className='ml-3 mr-6' alt='House'/>
-                    <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' alt='Podium'/>
+                    <Link href={"/home"}>
+                        <Image src="/assets/house_icon.svg" width={48} height={48} className='ml-3 mr-6' alt='House'/>
+                    </Link>
+                    <Link href={"/home/ranking"}>
+                        <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' alt='Podium' />
+                    </Link>
                     <Image src="/assets/coroa.svg" width={48} height={48} className='ml-3 mr-6' alt='Crown'/>
                 </footer>
                 <ToastContainer
