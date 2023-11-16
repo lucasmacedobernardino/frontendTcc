@@ -38,7 +38,7 @@ export default function Ranking() {
             <div className='absolute'>
                 <div className="flex h-full w-96 flex-col border px-4 py-8 bg-white ">
                     <header className="mb-4 flex items-center font-sans justify-center text-3xl flex-col">
-                        <h1>Ranking</h1>
+                        <h1 className="text-black">Ranking</h1>
                         <div className="flex justify-around w-full mt-3">
                             <button onClick={() => fetchRanking('mes')} className="bg-yellow-500 text-white px-5 rounded-3xl text-lg">Mês</button>
                             <button onClick={() => fetchRanking('ano')} className="bg-yellow-500 text-white px-5 rounded-3xl text-lg">Ano</button>

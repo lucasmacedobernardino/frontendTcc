@@ -36,7 +36,7 @@ export default function Home() {
         <div className='absolute'>
             <div className="flex h-full w-96 flex-col border px-4 py-8 bg-white ">
                 <header className="mb-4 flex items-center font-sans text-3xl">
-                    <h1>Conquistas</h1>
+                    <h1 className="text-black">Conquistas</h1>
                 </header>
                 <hr className="mb-4" />
                 <div className='flex flex-col'>
