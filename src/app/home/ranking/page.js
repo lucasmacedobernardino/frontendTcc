@@ -119,7 +119,9 @@ export default function Ranking() {
                     <Link href={"/home/ranking"}>
                         <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' alt='Podium' />
                     </Link>
+                    <Link href={"/home/conquistas"}>
                     <Image src="/assets/coroa.svg" width={48} height={48} className='ml-3 mr-6' alt='Crown' />
+                    </Link>
                 </footer>
             </div>
         </div>
