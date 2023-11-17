@@ -12,7 +12,7 @@ export default function Register() {
     const emailInvalido = ()=> toast.warning("Email Inválido!")
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const ip = "http://3.17.204.62:3333"
+        const ip = "http://18.217.102.209:3333"
         const nome = event.target.nome.value
         const email = event.target.email.value;
         const senha = event.target.senha.value;

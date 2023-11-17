@@ -15,7 +15,7 @@ export default function Home() {
             getQtdConquistaUsuario(usuarioJSON.id);
         }
     }, []);
-    const ip = "http://3.17.204.62:3333";
+    const ip = "http://18.217.102.209:3333";
     async function getQtdConquistaUsuario(userId) {
         try {
             const response = await fetch(`${ip}/usuarioconquista/quantidade/${userId}`, {

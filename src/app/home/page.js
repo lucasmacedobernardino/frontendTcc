@@ -23,7 +23,7 @@ export default function Home() {
         setLoading(false);
     }, []);
 
-    const ip = "http://3.17.204.62:3333";
+    const ip = "http://18.217.102.209:3333";
 
     async function vidasPontuacao(userId) {
         try {

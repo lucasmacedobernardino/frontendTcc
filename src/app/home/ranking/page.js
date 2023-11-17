@@ -6,7 +6,7 @@ export default function Ranking() {
     const [rankingData, setRankingData] = useState([]);
     async function fetchRanking(periodo) {
         try {
-            const response = await fetch(`http://3.17.204.62:3333/usuarioresposta/ranking/${periodo}`, {
+            const response = await fetch(`http://18.217.102.209:3333/usuarioresposta/ranking/${periodo}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

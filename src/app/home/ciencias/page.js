@@ -29,7 +29,7 @@ export default function Matematica() {
     }, []);
     const fetchQuestoes = async (token) => {
         try {
-            const response = await fetch(`http://3.17.204.62:3333/questoes/disciplinas/${ciencias}`, {
+            const response = await fetch(`http://18.217.102.209:3333/questoes/disciplinas/${ciencias}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `${token}`,
@@ -69,7 +69,7 @@ export default function Matematica() {
         };
         
         // Endpoint da API
-        const endpoint = `http://3.17.204.62:3333/usuarioresposta`;
+        const endpoint = `http://18.217.102.209:3333/usuarioresposta`;
         
         // Realizar a requisição POST
         try {
