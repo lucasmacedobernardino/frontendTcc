@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ip from '@/app/ip';
 export default function Home() {
     const router = useRouter();
     const [usuario, setUsuario] = useState(null);
@@ -15,7 +16,6 @@ export default function Home() {
             getQtdConquistaUsuario(usuarioJSON.id);
         }
     }, []);
-    const ip = "http://18.217.102.209:3333";
     async function getQtdConquistaUsuario(userId) {
         try {
             const response = await fetch(`${ip}/usuarioconquista/quantidade/${userId}`, {

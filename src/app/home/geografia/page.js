@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ip from '@/app/ip';
 export default function Matematica() {
     const respostaSuccess = () => toast.success("Resposta Correta! Você ganhou 10 pontos!");
     const respostaFailed = () => toast.error("Resposta Incorreta! Você perdeu uma vida!");
@@ -29,7 +30,7 @@ export default function Matematica() {
     }, []);
     const fetchQuestoes = async (token) => {
         try {
-            const response = await fetch(`http://18.217.102.209:3333/questoes/disciplinas/${geografia}`, {
+            const response = await fetch(`${ip}/questoes/disciplinas/${geografia}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `${token}`,
@@ -72,7 +73,7 @@ export default function Matematica() {
         };
         
         // Endpoint da API
-        const endpoint = `http://18.217.102.209:3333/usuarioresposta`;
+        const endpoint = `${ip}/usuarioresposta`;
         
         // Realizar a requisição POST
         try {

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Loading from '../components/loading';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ip from '../ip';
 export default function Home() {
     const semVidasNotify = () => toast.warning("Você está sem vidas!")
     const [loading, setLoading] = useState(true);
@@ -22,9 +23,6 @@ export default function Home() {
         }
         setLoading(false);
     }, []);
-
-    const ip = "http://18.217.102.209:3333";
-
     async function vidasPontuacao(userId) {
         try {
             const response = await fetch(`${ip}/usuarios/${userId}`, {
