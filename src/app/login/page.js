@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
+import ip from '../ip';
 
 export default function Login() {
     useEffect(()=>{
@@ -16,7 +17,6 @@ export default function Login() {
     const router = useRouter();
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const ip = "http://18.217.102.209:3333"
         const email = event.target.email.value;
         const senha = event.target.senha.value;
         const endpoint = `${ip}/usuarios/login`;
@@ -76,8 +76,8 @@ export default function Login() {
             <h1 className="text-center text-[#735ED9] text-5xl my-1 font-bold italic">duolfes</h1>
             <div className="spinner" />
             <form className='flex flex-col w-60 items-center' onSubmit={handleSubmit}>
-                <InputField label={"E-mail"} placeholder={"lucasmacedoes@gmail.com"} type={"email"} name="email" />
-                <InputField label={"Password"} placeholder={"*****"} type={"password"} name="senha" />
+                <InputField label={"E-mail"} placeholder={"Seu email"} type={"email"} name="email" value={"lucasmacedoes@gmail.com"}/>
+                <InputField label={"Password"} placeholder={"Sua senha"} type={"password"} name="senha" value={"Ab123!@#"}/>
                 <button className='border p-1 bg-[#735ED9] rounded-md text-white mt-5 text-xs shadow-md py-1 px-16 mb-3' type="submit">
                     Entrar
                 </button>
