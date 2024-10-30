@@ -2,23 +2,25 @@
 import Image from 'next/image';
 import InputField from '../components/inputField';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Link from 'next/link';
 import ip from '../ip';
 
 export default function Login() {
-    useEffect(()=>{
+    const [email, setEmail] = useState('')
+    const [senha, setSenha] = useState('')
+    useEffect(() => {
         localStorage.clear()
-     }, [])
+    }, [])
     const loginSuccess = () => toast.success("Login efetuado com Sucesso!");
     const loginFailed = () => toast.error("Senha Incorreta!");
+    const emailNotFound = () => toast.error("Email não encontrado!");
     const router = useRouter();
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const email = event.target.email.value;
-        const senha = event.target.senha.value;
+
         const endpoint = `${ip}/usuarios/login`;
         try {
             const response = await fetch(endpoint, {
@@ -29,16 +31,17 @@ export default function Login() {
                 body: JSON.stringify({ email, senha }),
             });
             if (response.ok) {
-                // Se a requisição for bem-sucedida, redireciona para outra página ou faz algo com os dados
                 const data = await response.json();
-                if(data.message == "Senha incorreta!"){
+                if (data.message == "Senha incorreta!") {
                     loginFailed()
-                    setTimeout(()=>{
-                        router.push('/login')
-                    }, 2000)
+                    return
                 }
                 localStorage.setItem("tokenUser", JSON.stringify(data))
                 const token = JSON.parse(localStorage.getItem('tokenUser'))
+                if (token.message === "Email não encontrado!") {
+                    emailNotFound()
+                    return
+                }
                 try {
                     const usuario = await fetch(`${ip}/usuarios/${token.user.id}`, {
                         method: 'GET',
@@ -53,7 +56,6 @@ export default function Login() {
                 } catch (error) {
                     console.error(error)
                 }
-                // Redirecionar para a dashboard, por exemplo
                 if (localStorage.getItem("tokenUser") && localStorage.getItem("usuario")) {
                     loginSuccess()
                     setTimeout(() => {
@@ -61,24 +63,23 @@ export default function Login() {
                     }, 2000)
                 }
             } else {
-                // Tratar erros de resposta (como email ou senha incorretos)
                 console.error('Falha na requisição:', response.statusText);
             }
         } catch (error) {
-            // Tratar erros de requisição
             console.error('Falha ao fazer a requisição:', error);
         }
     }
     return (
-
         <div className="flex items-center justify-center h-screen bg-[#FFF] flex-col">
-            <Image src="/assets/education-white.svg" width={120} height={120} className='bg-[#735ED9] align-middle' />
-            <h1 className="text-center text-[#735ED9] text-5xl my-1 font-bold italic">duolfes</h1>
+            <Image src="/assets/chapeu-de-bruxa-white.svg" width={140} height={140} />
+            <h1 className="text-center text-[#735ED9] text-[48px] my-1 font-bold italic">magicIfes</h1>
             <div className="spinner" />
             <form className='flex flex-col w-60 items-center' onSubmit={handleSubmit}>
-                <InputField label={"E-mail"} placeholder={"Seu email"} type={"email"} name="email" value={"lucasmacedoes@gmail.com"}/>
-                <InputField label={"Password"} placeholder={"Sua senha"} type={"password"} name="senha" value={"Ab123!@#"}/>
-                <button className='border p-1 bg-[#735ED9] rounded-md text-white mt-5 text-xs shadow-md py-1 px-16 mb-3' type="submit">
+                <InputField label={"E-mail"} placeholder={"Seu email"} type={"email"} name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <InputField label={"Password"} placeholder={"Sua senha"} type={"password"} name="senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
+
+
+                <button className='border p-1 bg-[#735ED9] rounded-md text-white mt-5 text-xs shadow-md py-1 px-16 mb-3'>
                     Entrar
                 </button>
                 <Link href="/register" className='text-xs text-[#777]'>Não tem uma conta? <span className='text-[#735ED9]'>Clique aqui</span></Link>

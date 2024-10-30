@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
+import { useGlobalState } from '../../context/GlobalStateContext.js';
 import 'react-toastify/dist/ReactToastify.css';
 import ip from '@/app/ip';
 export default function Portugues() {
+    const {qtdQuestoes} = useGlobalState()
     const respostaSuccess = () => toast.success("Resposta Correta! Você ganhou 10 pontos!");
     const respostaFailed = () => toast.error("Resposta Incorreta! Você perdeu uma vida!");
     const router = useRouter();
@@ -21,16 +23,19 @@ export default function Portugues() {
         opcao4: "",
         opcao5: "",
     });
-
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('tokenUser'));
         if (token) {
-            fetchQuestoes(token.token);
+            if (qtdQuestoes === 1){
+                fetchQuestao(token.token);
+            }else{
+                console.log("é maior que 1")
+            }
         }
     }, []);
-    const fetchQuestoes = async (token) => {
+    const fetchQuestao = async (token) => {
         try {
-            const response = await fetch(`${ip}/questoes/disciplinas/${portugues}`, {
+            const response = await fetch(`${ip}/questoes/disciplinas/${portugues}/limit/${qtdQuestoes}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `${token}`,
@@ -44,7 +49,7 @@ export default function Portugues() {
             }
 
             const data = await response.json();
-            setQuestao({ "enunciado": data.data.enunciado, "id": data.data.id, "imagem": data.data.imagem, "opcao1": data.data.opcao1, "opcao2": data.data.opcao2, "opcao3": data.data.opcao3, "opcao4": data.data.opcao4, "opcao5": data.data.opcao5, "respostaCorreta": data.data.respostaCorreta, });
+            setQuestao({ "enunciado": data.data[0].enunciado, "id": data.data[0].id, "imagem": data.data[0].imagem, "opcao1": data.data[0].opcao1, "opcao2": data.data[0].opcao2, "opcao3": data.data[0].opcao3, "opcao4": data.data[0].opcao4, "opcao5": data.data[0].opcao5, "respostaCorreta": data.data[0].respostaCorreta, });
         } catch (error) {
             console.error('Erro ao fazer a requisição:', error);
         }
@@ -83,7 +88,6 @@ export default function Portugues() {
                 body: JSON.stringify(payload)
             });
             
-            // Tratar a resposta
             if (response.ok) {
                 const responseData = await response.json();
                 if(responseData.message == "Resposta Correta!"){
@@ -97,7 +101,7 @@ export default function Portugues() {
                     router.push("/home")
                 }, 4000)
             }
-                // Outras ações após a resposta bem-sucedida...
+
             } else {
                 const responseData = await response.json();
                 alert(responseData.message);
@@ -107,11 +111,7 @@ export default function Portugues() {
             console.error('Falha ao fazer a requisição:', error);
         }
     };
-    
 
-
-
-    // Função para renderizar os inputs de rádio
     const renderOpcoes = () => {
         let opcoes = [];
         for (let i = 1; i <= 5; i++) {
@@ -132,39 +132,43 @@ export default function Portugues() {
         return opcoes;
     }
 
-
-
-    return (
-        <div className="max-w-2xl mx-auto p-4">
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
-            <h1 className="text-xl font-bold mb-4">Questão</h1>
-            <p className="text-base text-gray-700 leading-relaxed mb-4">
-                {questao.enunciado}
-            </p>
-            {questao.imagem && (
-                <img src={`${questao.imagem}`} alt="Image Description" />
-            )}
-            <form className='mt-4' onSubmit={handleSubmit}>
-                {renderOpcoes()}
-                <div className='flex items-center justify-center'>
-                    <button className="bg-purple-600 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 w-full mt-2">
-                        Verificar
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
+    if (qtdQuestoes === 1) {
+        return (
+            <div className="max-w-2xl mx-auto p-4">
+                <ToastContainer
+                    position="top-center"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
+                <h1 className="text-xl font-bold mb-4">Questão</h1>
+                <p className="text-base text-gray-700 leading-relaxed mb-4">
+                    {questao.enunciado}
+                </p>
+                {questao.imagem && (
+                    <img src={`${questao.imagem}`} alt="Image Description" />
+                )}
+                <form className='mt-4' onSubmit={handleSubmit}>
+                    {renderOpcoes()}
+                    <div className='flex items-center justify-center'>
+                        <button className="bg-purple-600 text-white font-semibold py-2 px-4 rounded-full shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 w-full mt-2">
+                            Verificar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        )
+    }else{
+        return (
+            <div>Questão maiores</div>
+        )
+    }
 }
 
 

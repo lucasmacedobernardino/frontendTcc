@@ -11,6 +11,9 @@ module.exports = {
         'purple-primary': '#243c5a',
       },
     },
+    fontFamily: {
+      'sans': ['Nunito']
+    }
   },
   plugins: [],
 }
