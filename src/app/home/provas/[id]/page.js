@@ -6,6 +6,7 @@ import Footer from "@/app/components/footerComponent"
 import Link from "next/link"
 
 export default function Prova({ params }) {
+    const resolvedParams = params;
     const [prova, setProva] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -13,7 +14,7 @@ export default function Prova({ params }) {
     useEffect(() => {
         async function fetchProva() {
             try {
-                const response = await fetch(`${ip}/provas/${params.id}`, {
+                const response = await fetch(`${ip}/provas/${resolvedParams.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -32,7 +33,7 @@ export default function Prova({ params }) {
         }
 
         fetchProva()
-    }, [params.id])
+    }, [resolvedParams.id])
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error}</p>
@@ -46,7 +47,7 @@ export default function Prova({ params }) {
 
                 return (
                     questao.marcada ? (
-                        <Link href={`/home/provas/${params.id}/questoes/${index + 1}`} key={index}>
+                        <Link href={`/home/provas/${resolvedParams.id}/questoes/${index + 1}`} key={index}>
                             <div className={`${className} ${marginLeft} ${marginTop}`}>
                                 {index + 1}
                             </div>

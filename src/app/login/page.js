@@ -71,7 +71,7 @@ export default function Login() {
     }
     return (
         <div className="flex items-center justify-center h-screen bg-[#FFF] flex-col">
-            <Image src="/assets/chapeu-de-bruxa-white.svg" width={140} height={140} />
+            <Image src="/assets/chapeu-de-bruxa-white.svg" width={140} height={140} alt='chapéu de mago branco' />
             <h1 className="text-center text-[#735ED9] text-[48px] my-1 font-bold italic">magicIfes</h1>
             <div className="spinner" />
             <form className='flex flex-col w-60 items-center' onSubmit={handleSubmit}>
