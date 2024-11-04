@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import ip from "@/app/ip"
 import Image from "next/image"
-
+import { useRouter } from "next/navigation"
 
 export default function Questao({ params }) {
     const resolvedParams = params;
@@ -10,7 +10,10 @@ export default function Questao({ params }) {
     const [selectedOption, setSelectedOption] = useState(null)
     const [showDialog, setShowDialog] = useState(false)
     const [dialogMessage, setDialogMessage] = useState("")
+    const [src, setSrc] = useState('')
     const token = JSON.parse(localStorage.getItem('tokenUser'))
+    const router = useRouter();
+
 
     const fetchQuestao = async (id, ordem) => {
         const endpoint = `${ip}/provas/${id}/ordem/${ordem}`;
@@ -23,7 +26,7 @@ export default function Questao({ params }) {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
+                console.log(data)
                 setQuestao(data);
             } else {
                 console.error('Falha na requisição:', response.statusText);
@@ -36,6 +39,10 @@ export default function Questao({ params }) {
     useEffect(() => {
         fetchQuestao(resolvedParams.id, resolvedParams.ordem);
     }, [resolvedParams.ordem]);
+
+    useEffect(() => {
+        getDialogImage()
+    }, [dialogMessage])
 
     const handleOptionClick = (index) => {
         setSelectedOption(index);
@@ -54,7 +61,7 @@ export default function Questao({ params }) {
         const usuario = token.user.id;
         const questao1 = questao.id;
         const endpoint = `${ip}/usuarioresposta`;
-
+        console.log(respostaSelecionada)
         try {
             const response = await fetch(endpoint, {
                 method: 'POST',
@@ -70,16 +77,7 @@ export default function Questao({ params }) {
 
             if (response.ok) {
                 const resultado = await response.json();
-                console.log("Resultado da verificação:", resultado);
-
-                // Controle do dialogMessage conforme a tentativa
-                if (resultado.tentativa === 0) {
-                    setDialogMessage(resultado.message || "Tentativa esgotada.");
-                } else if (resultado.tentativa === 1) {
-                    setDialogMessage(resultado.message || "Resposta incorreta. Tente novamente.");
-                } else {
-                    setDialogMessage("Resposta Correta");
-                }
+                setDialogMessage(resultado.message);
             } else {
                 const erroMsg = await response.text();
                 console.error('Erro na resposta:', erroMsg);
@@ -90,22 +88,66 @@ export default function Questao({ params }) {
             setDialogMessage("Erro de conexão ao verificar a resposta.");
         }
 
-        // Exibir o dialog após definir a mensagem
         setShowDialog(true);
     };
 
+    const getDialogImage = () => {
+        console.log(dialogMessage)
+        switch (dialogMessage) {
+            case "Você não possui vidas para responder o enigma!":
+                setSrc("/assets/coracao_partido.png");
+                break;
+            case "Essa foi sua segunda tentativa, Resposta Incorreta, por isso você perdeu uma vida!":
+                setDialogMessage("O mago do mal te tirou uma vida por ter errado o enigma!")
+                setSrc("/assets/mago_mal.png");
+                break;
+            case "Resposta Correta! O mago de Português te deu 10 pontos de experiência!":
+                setSrc("/assets/mago_portugues.png");
+                break;
+            case "Resposta Correta! O mago de Matemática te deu 10 pontos de experiência!":
+                setSrc("/assets/mago_matematica.png");
+                break;
+            case "Resposta Correta! O mago de História te deu 10 pontos de experiência!":
+                setSrc("/assets/mago_historia.png");
+                break;
+            case "Resposta Correta! O mago de Geografia te deu 10 pontos de experiência!":
+                setSrc("/assets/mago_geografia.png");
+                break;
+            case "Resposta Correta! O mago de Ciências te deu 10 pontos de experiência!":
+                setSrc("/assets/mago_ciencia.png");
+                break;
+            case "Primeira tentativa, porém, Resposta Incorreta!":
+                setDialogMessage("Você errou a questão, mas não se preocupe! a varinha mágica da sabedoria te deu mais uma chance!")
+                setSrc("/assets/primeira_tentativa.png")
+                break;
+            default:
+                return ''
+        }
+    };
 
     const closeDialog = () => {
-        setShowDialog(false);
+        if (dialogMessage === "Você não possui vidas para responder o enigma!") {
+            setShowDialog(false);
+            router.push('/home')
+        } else if (dialogMessage === "Essa foi sua segunda tentativa, Resposta Incorreta, por isso você perdeu uma vida!") {
+            setShowDialog(false);
+            router.push('/home')
+        } else if (dialogMessage === "Resposta Correta! O mago de Português te deu 10 pontos de experiência!" ||
+            "Resposta Correta! O mago de Matemática te deu 10 pontos de experiência!" || "Resposta Correta! O mago de História te deu 10 pontos de experiência!"
+            || "Resposta Correta! O mago de Geografia te deu 10 pontos de experiência!" || "Resposta Correta! O mago de Ciências te deu 10 pontos de experiência!") {
+            setShowDialog(false);
+            router.push('/home')
+        } else {
+            setShowDialog(false);
+        }
     };
 
     return (
         <div className="flex justify-start items-center flex-col">
-
             <div className="flex flex-col justify-center items-center w-[360px]">
                 <div>Questão {resolvedParams.ordem}</div>
                 <pre>{questao?.enunciado}</pre>
-                {questao.imagem && <Image src={`${questao.imagem}`} width={600} height={600} alt="imagem da questão" priority />}
+                {questao.imagem && <Image src={questao.imagem} width={600} height={600} alt="imagem da questão" priority />}
 
                 {[questao.opcao1, questao.opcao2, questao.opcao3, questao.opcao4, questao.opcao5].map((opcao, index) => (
                     <button
@@ -129,7 +171,8 @@ export default function Questao({ params }) {
 
             {showDialog && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-5 rounded-lg shadow-lg text-center w-[300px]">
+                    <div className="bg-white p-5 rounded-lg shadow-lg text-center w-[300px] flex flex-col justify-center items-center">
+                        <Image src={src} width={150} height={150} alt="Imagem do diálogo" className="mb-4" />
                         <p>{dialogMessage}</p>
                         <button
                             className="bg-purple-600 text-white mt-4 p-2 rounded-full w-full"

@@ -1,18 +1,28 @@
-"use client"
+'use client'
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Footer from '../components/footerComponent';
 import Desafio from '../components/desafio';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ip from '../ip';
+
 export default function Home() {
-    const semVidasNotify = () => toast.warning("Você está sem vidas!")
     const [vidaPonto, setVidaPonto] = useState({ vidas: 0, pontuacao: 0 });
-    const router = useRouter();
+    const [showDialog, setShowDialog] = useState(false);
     const [usuario, setUsuario] = useState(null);
+    const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+
+    const mensagensCarrossel = [
+        { texto: "Você é um mago e precisa evoluir!", imagem: "/assets/mago_iniciante.webp" },
+        { texto: "Por enquanto você tem 7 desafios para cumprir!", imagem: "/assets/desafio.png" },
+        { texto: "Cada desafio possui diversos enigmas!", imagem: "/assets/enigma.png" },
+        { texto: "Ao completar um enigma você ganha 10 pontos de experiência!", imagem: "/assets/nivel.png" },
+        { texto: "Você é classificado em um ranking de acordo com a sua experiência!", imagem: "/assets/ranking.png" },
+        { texto: "Também existe um ranking de cada disciplina!", imagem: "/assets/ranking_disciplinas.png" },
+        { texto: "Se esforce e se torne o melhor mago de todos os tempos!", imagem: "/assets/mago_poderoso.webp" }
+    ];
 
     useEffect(() => {
         const usuarioData = localStorage.getItem("usuario");
@@ -21,20 +31,16 @@ export default function Home() {
             setUsuario(usuarioJSON);
             vidasPontuacao(usuarioJSON.id);
         }
-
     }, []);
-    async function vidasPontuacao(userId) {
+
+    async function adicionarUmEntradaUsuario() {
         try {
-            const response = await fetch(`${ip}/usuarios/${userId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
+            const response = await fetch(`${ip}/usuarios/adicionarUmEntradaUsuario/${usuario.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' }
             });
             if (response.ok) {
-                const data = await response.json();
-                console.log(data)
-                setVidaPonto({ vidas: data.vidas, pontuacao: data.pontuacao });
+                setShowDialog(true);
             }
         } catch (error) {
             console.error(error);
@@ -42,70 +48,100 @@ export default function Home() {
     }
 
 
-
-
-    const handleNavigation = (path) => {
-        if (vidaPonto.vidas > 0) {
-            // Se o usuário tiver vidas, prossegue com a navegação
-            router.push(path);
-        } else {
-            // Se não tiver vidas, exibe um alerta
-            semVidasNotify()
+    async function vidasPontuacao(userId) {
+        try {
+            const response = await fetch(`${ip}/usuarios/${userId}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data.entrada === 0) {
+                    setShowDialog(true);
+                }
+                setVidaPonto({ vidas: data.vidas, pontuacao: data.pontuacao });
+            }
+        } catch (error) {
+            console.error(error);
         }
-    };
+    }
 
     function primeiroNome(nomeCompleto) {
         return nomeCompleto.split(' ')[0];
     }
+
+    async function closeDialog() {
+        await adicionarUmEntradaUsuario()
+        setShowDialog(false);
+    }
+
+    function nextMessage() {
+        setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % mensagensCarrossel.length);
+    }
+
+    function prevMessage() {
+        setCurrentMessageIndex((prevIndex) =>
+            prevIndex === 0 ? mensagensCarrossel.length - 1 : prevIndex - 1
+        );
+    }
+
     return (
-        <div className="flex items-center justify-center  ">
+        <div className="flex items-center justify-center">
             <div className="w-[360px] h-[800px]">
-                <div className="flex justify-evenly flex-col border bg-white ">
+                <div className="flex justify-evenly flex-col border bg-white">
                     <header className="flex justify-around items-center p-3">
                         <div className="flex flex-col items-center">
-                            <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" />
+                            <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" priority />
                             <h1 className="text-[20px] font-bold" style={{ color: '#735ED9' }}>
                                 {usuario ? primeiroNome(usuario.nome) : ''}
                             </h1>
                         </div>
                         <div className="flex flex-col items-center">
-                            <Image src="/assets/points.svg" width={70} height={70} alt="Pontuação" />
-                            <h1 className="text-[20px] font-bold text-[#FFD83B]" >
+                            <Image src="/assets/points.svg" width={70} height={70} alt="Pontuação" priority />
+                            <h1 className="text-[20px] font-bold text-[#FFD83B]">
                                 {vidaPonto ? vidaPonto.pontuacao : ''}
                             </h1>
                         </div>
                         <div className="flex flex-col items-center">
-                            <Image src="/assets/life.svg" width={70} height={70} alt="Vidas" />
-                            <h1 className="text-[20px] font-bold text-[#FC6886]" >
+                            <Image src="/assets/life.svg" width={70} height={70} alt="Vidas" priority />
+                            <h1 className="text-[20px] font-bold text-[#FC6886]">
                                 {vidaPonto ? vidaPonto.vidas : ''}
                             </h1>
                         </div>
                     </header>
                     <hr className="mb-4" />
-                    <div className='flex justify-center items-center flex-col gap-2'>
-                        <Desafio numero="1" />
-                        <Desafio numero="2" />
-                        <Desafio numero="3" />
-                        <Desafio numero="4" />
-                        <Desafio numero="5" />
-                        <Desafio numero="6" />
-                        <Desafio numero="7" />
+                    <div className="flex justify-center items-center flex-col gap-2">
+                        {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+                            <Desafio key={num} numero={num} vidas={vidaPonto ? vidaPonto.vidas : ''} />
+                        ))}
                     </div>
                 </div>
                 <Footer />
-                <ToastContainer
-                    position="top-center"
-                    autoClose={2000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="light"
-                />
+                <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} theme="light" />
+                {showDialog && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+                        <div className="bg-white p-5 rounded-lg shadow-lg text-center w-[300px]">
+                            {mensagensCarrossel[currentMessageIndex].imagem ? <Image src={mensagensCarrossel[currentMessageIndex].imagem} width={200} height={200} alt="Imagem do diálogo" className='w-full' /> : <div className='hidden'></div>}
+
+                            <p className="mt-4">{mensagensCarrossel[currentMessageIndex].texto}</p>
+                            <div className="flex justify-between mt-4">
+                                <button onClick={prevMessage} className="bg-gray-300 text-gray-700 p-2 rounded-full">
+                                    Anterior
+                                </button>
+                                <button onClick={nextMessage} className="bg-gray-300 text-gray-700 p-2 rounded-full">
+                                    Próximo
+                                </button>
+                            </div>
+                            <button
+                                className="bg-purple-600 text-white mt-4 p-2 rounded-full w-full"
+                                onClick={closeDialog}
+                            >
+                                Fechar
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
-    )
+    );
 }

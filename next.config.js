@@ -8,7 +8,7 @@ const nextConfig = {
                 pathname: '/assets/**',
             },
         ],
-    }
+    },
 }
 
 module.exports = nextConfig

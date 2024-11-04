@@ -39,27 +39,31 @@ export default function Prova({ params }) {
     if (error) return <p>Error: {error}</p>
 
     return (
-        <div className="flex flex-col items-center gap-4">
-            {prova?.questoes?.map((questao, index) => {
-                const marginLeft = index % 2 === 0 ? 'ml-8' : 'mr-5';
-                const marginTop = index === 0 ? 'mt-10' : '';
-                const className = questao.marcada ? "s-bubble" : "s-not-bubble";
+        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+            <div className="border border-gray-300 rounded-lg w-[330px] bg-white">
+                <div className="flex flex-col items-center gap-4">
+                    {prova?.questoes?.map((questao, index) => {
+                        const marginLeft = index % 2 === 0 ? 'ml-8' : 'mr-5';
+                        const marginTop = index === 0 ? 'mt-10' : '';
+                        const className = questao.marcada ? "s-bubble" : "s-not-bubble";
 
-                return (
-                    questao.marcada ? (
-                        <Link href={`/home/provas/${resolvedParams.id}/questoes/${index + 1}`} key={index}>
-                            <div className={`${className} ${marginLeft} ${marginTop}`}>
-                                {index + 1}
-                            </div>
-                        </Link>
-                    ) : (
-                        <div key={index} className={`${className} ${marginLeft} ${marginTop}`}>
-                            {index + 1}
-                        </div>
-                    )
-                );
-            })}
-            <Footer />
+                        return (
+                            questao.marcada ? (
+                                <Link href={`/home/provas/${resolvedParams.id}/questoes/${index + 1}`} key={index}>
+                                    <div className={`${className} ${marginLeft} ${marginTop}`}>
+                                        {index + 1}
+                                    </div>
+                                </Link>
+                            ) : (
+                                <div key={index} className={`${className} ${marginLeft} ${marginTop}`}>
+                                    {index + 1}
+                                </div>
+                            )
+                        );
+                    })}
+                    <Footer />
+                </div>
+            </div>
         </div>
     )
 }

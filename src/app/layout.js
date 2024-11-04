@@ -1,6 +1,5 @@
 import { Inter } from 'next/font/google'
 import { Nunito } from 'next/font/google'
-import { GlobalStateProvider } from '../app/context/GlobalStateContext.js';
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,9 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <GlobalStateProvider>
-          {children}
-        </GlobalStateProvider>
+        {children}
       </body>
     </html>
   )

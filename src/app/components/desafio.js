@@ -1,7 +1,7 @@
 import Link from "next/link"
-export default function Desafio({ numero }) {
+export default function Desafio({ numero, vidas }) {
     return (
-        <Link href={`/home/provas/${numero}`}>
+        <Link href={vidas > 0 ? `/home/provas/${numero}` : ''}>
             <style jsx>{`
                 @keyframes rotateBounce {
                     0%, 100% {
