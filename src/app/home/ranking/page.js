@@ -1,130 +1,149 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import Image from "next/image"
-import Link from "next/link"
+import RankingMago from '@/app/components/ranking_mago';
+import Footer from '@/app/components/footerComponent';
 import { useEffect, useState } from 'react';
-import ip from "@/app/ip";
+import ip from '@/app/ip';
 export default function Ranking() {
-    const [rankingData, setRankingData] = useState([]);
-    async function fetchRanking(periodo) {
+    const [ranking, setRanking] = useState([{}])
+    const router = useRouter();
+    const fetchRanking = async () => {
         try {
-            const response = await fetch(`${ip}/usuarioresposta/ranking/${periodo}`, {
+
+            const response = await fetch(`${ip}/usuarioresposta/rankingTotal/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            });
-            if (!response.ok) {
-                throw new Error('Erro ao buscar ranking');
+            })
+            if (response.ok) {
+                const data = await response.json();
+                setRanking(data)
+                console.log(`este é o state ${ranking}`)
+                console.log(data)
+
             }
-            const data = await response.json();
-            if (periodo == "ano") {
-                setRankingData(data[0])
-            } else if (periodo == "mes") {
-                setRankingData(data[0])
-            } else if (periodo == "dia") {
-                setRankingData(data[0])
-            } else {
-                setRankingData({})
-            }
-            // Atualizar o estado com os dados do ranking
         } catch (error) {
-            console.log(error);
+            console.error('Falha ao fazer a requisição:', error);
         }
     }
+
+
+
     useEffect(() => {
-        fetchRanking('ano'); // Busca o ranking anual por padrão ao carregar o componente
-    }, []);
+        fetchRanking()
+    }, [])
     return (
-        <div>
-            <div className='absolute'>
-                <div className="flex h-full w-96 flex-col border px-4 py-8 bg-white ">
-                    <header className="mb-4 flex items-center font-sans justify-center text-3xl flex-col">
-                        <h1 className="text-black">Ranking</h1>
-                        <div className="flex justify-around w-full mt-3">
-                            <button onClick={() => fetchRanking('mes')} className="bg-yellow-500 text-white px-5 rounded-3xl text-lg">Mês</button>
-                            <button onClick={() => fetchRanking('ano')} className="bg-yellow-500 text-white px-5 rounded-3xl text-lg">Ano</button>
-                            <button onClick={() => fetchRanking('dia')} className="bg-yellow-500 text-white px-5 rounded-3xl text-lg">Dia</button>
-                        </div>
-                    </header>
-                    <hr className="mb-4" />
-                    <div className='flex flex-col'>
-                        <div className="mb-6 flex items-center font-sans justify-center flex-col">
-                            <div className="flex justify-center items-center">
-                                <Image src="/assets/coroa.svg" width={96} height={96} className='ml-3 mr-6' alt='Português' />
-                                <h1 className="text-2xl font-bold text-black">{rankingData[0] ? rankingData[0].nome : 'Carregando...'}</h1>
-                            </div>
-                            <h1 className="text-2xl font-bold text-white bg-purple-600 rounded-3xl p-4">
-                                {
-                                    rankingData[0]
-                                        ? (rankingData[0].pontuacao_ano
-                                            ? rankingData[0].pontuacao_ano
-                                            : (rankingData[0].pontuacao_mes
-                                                ? rankingData[0].pontuacao_mes
-                                                : (rankingData[0].pontuacao_dia
-                                                    ? rankingData[0].pontuacao_dia
-                                                    : 'Carregando...')))
-                                        : 'Carregando...'}</h1>
-                        </div>
-                        <div className="mb-6 flex items-center font-sans justify-center flex-col">
-                            <div className="flex justify-center items-center">
-                                <Image src="/assets/esmeralda.svg" width={84} height={84} className='ml-3 mr-6' alt='Português' />
-                                <h1 className="text-2xl font-bold text-black">{rankingData[1] ? rankingData[1].nome : 'Carregando...'}</h1>
-                            </div>
-                            <h1 className="text-2xl font-bold text-white bg-purple-600 rounded-3xl p-4">{
-                                rankingData[1]
-                                    ? (rankingData[1].pontuacao_ano
-                                        ? rankingData[1].pontuacao_ano
-                                        : (rankingData[1].pontuacao_mes
-                                            ? rankingData[1].pontuacao_mes
-                                            : (rankingData[1].pontuacao_dia
-                                                ? rankingData[1].pontuacao_dia
-                                                : 'Carregando...')))
-                                    : 'Carregando...'}</h1>
-                        </div>
-                        <div className="mb-6 flex items-center font-sans justify-center flex-col">
-                            <div className="flex justify-center items-center">
-                                <Image src="/assets/diamante.svg" width={76} height={76} className='ml-3 mr-6' alt='Português' />
-                                <h1 className="text-2xl font-bold text-black">{rankingData[2] ? rankingData[2].nome : 'Carregando...'}</h1>
-                            </div>
-                            <h1 className="text-2xl font-bold text-white bg-purple-600 rounded-3xl p-4">{
-                                rankingData[2]
-                                    ? (rankingData[2].pontuacao_ano
-                                        ? rankingData[2].pontuacao_ano
-                                        : (rankingData[2].pontuacao_mes
-                                            ? rankingData[2].pontuacao_mes
-                                            : (rankingData[2].pontuacao_dia
-                                                ? rankingData[2].pontuacao_dia
-                                                : 'Carregando...')))
-                                    : 'Carregando...'}</h1>
-                        </div>
+        <div className="flex items-center justify-center">
+            <div className="w-[360px] h-[800px] p-2">
+                <header className="flex justify-around items-center">
+                    <div onClick={() => router.push('/home')} className='cursor-pointer'>
+                        <Image src="/assets/voltar.png" height={20} width={20} alt="Voltar" priority />
+                    </div>
+                    <div className="text-[20px] cursor-default">Ranking</div>
+                    <div></div>
+                </header>
+                <div className='mt-3'>
+                    <div className='flex justify-center items-center '>
+                        <RankingMago src='/assets/mago_historia_svg.svg' alt='Mago de história' title='História' href='/home' />
+                    </div>
+                    <div className='flex items-center justify-around'>
+                        <RankingMago src='/assets/mago_matematica_svg.svg' alt='Mago de matemática' title='Matemática' translate="translate-x-5 -translate-y-[3.60rem]" />
+                        <RankingMago src='/assets/mago_geografia_svg.svg' alt='Mago de geografia' title='Geografia' translate="-translate-y-[3.60rem] -translate-x-[1rem]" />
+                    </div>
 
-                        {
-                            rankingData.length > 3 && rankingData.slice(3).map((item, index) => (
-                                <div key={index} className="mb-6 flex items-center font-sans justify-center flex-col">
-                                    <div className="flex justify-center items-center">
-                                        <h1 className="text-2xl font-bold text-black">{item.nome}</h1>
-                                        <h1 className="text-2xl font-bold text-white bg-purple-600 rounded-3xl p-4">
-                                            {item.pontuacao_ano ? item.pontuacao_ano : (item.pontuacao_mes ? item.pontuacao_mes : (item.pontuacao_dia ? item.pontuacao_dia : 'Carregando...'))}
-                                        </h1>
-                                    </div>
-                                </div>
-                            ))
-                        }
-
+                    <div className='flex items-center justify-between '>
+                        <RankingMago src='/assets/mago_portugues_svg.svg' alt='Mago de português' title='Português' translate="-translate-y-[5rem]" />
+                        <RankingMago src='/assets/mago_ciencias_svg.svg' alt='Mago de ciências' title='Ciência' translate="-translate-y-[5.1rem]" />
                     </div>
                 </div>
-                <footer className="flex h-full w-full justify-between rounded-b-md bg-[#E8E8EA] p-4 relative bottom-0">
-                    <Link href={"/home"}>
-                        <Image src="/assets/house_icon.svg" width={48} height={48} className='ml-3 mr-6' alt='House' />
-                    </Link>
-                    <Link href={"/home/ranking"}>
-                        <Image src="/assets/podium.svg" width={48} height={48} className='ml-3 mr-6' alt='Podium' />
-                    </Link>
-                    <Link href={"/home/conquistas"}>
-                    <Image src="/assets/coroa.svg" width={48} height={48} className='ml-3 mr-6' alt='Crown' />
-                    </Link>
-                </footer>
+                <div className="flex items-end justify-center -translate-y-[5rem]">
+                    <div className='z-10 flex flex-col justify-center items-center'>
+                        <Image src="/assets/esmeralda.svg" width={28} height={28} alt="avatar" priority className='translate-x-[85%] translate-y-[.7rem]' />
+                        <div className="w-24 h-24 bg-[#00F1A5] rounded-full translate-y-4 translate-x-6 border-[.2rem] border-[#1770457f]">
+                            <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" priority className='translate-x-[15%] translate-y-[10%]' />
+                        </div>
+                        <div className='text-white w-3 h-3 bg-[#00F1A5] rounded-full text-[8px] flex justify-center translate-y-2 translate-x-6'>2</div>
+                        <div className='flex flex-col items-center justify-center translate-x-[51%] translate-y-2'>
+                            <p className='text-[8px]'>{ranking[1]?.nome}</p>
+                            <p className='text-[16px] -translate-y-1 text-[#EF0202]'>{ranking[1]?.pontuacao}</p>
+                        </div>
+                    </div>
+                    <div className='z-20 flex flex-col justify-center items-center'>
+                        <Image src="/assets/coroa.svg" width={48} height={48} alt='medalhas' priority />
+                        <div className="w-28 h-28 bg-[#E0D81F] rounded-full border-[#FFF50D] border-[.2rem] relative">
+                            <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" priority className='translate-x-[25%] translate-y-[.9rem]' />
+                        </div>
+                        <div className='text-white w-3 h-3 bg-[#E0D81F] rounded-full text-[8px] flex justify-center -translate-y-2'>1</div>
+                        <div className='flex flex-col items-center justify-center -translate-y-2'>
+                            <p className='text-[8px]'>{ranking[0]?.nome}</p>
+                            <p className='text-[16px] -translate-y-1 text-[#EF0202]'>{ranking[0]?.pontuacao}</p>
+                        </div>
+                    </div>
+                    <div className='z-10 flex flex-col justify-center items-center'>
+                        <Image src="/assets/diamante.svg" width={24} height={24} alt='medalhas' priority className='-translate-x-[85%] translate-y-[.7rem]' />
+                        <div className="w-24 h-24 bg-[#2FC0F0] rounded-full translate-y-4 -translate-x-6 border-[.2rem] border-[#1e7998]">
+                            <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" priority className='translate-x-[15%] translate-y-[.7rem]' />
+                        </div>
+                        <div className='text-white w-3 h-3 bg-[#2FC0F0] rounded-full text-[8px] flex justify-center translate-y-2 -translate-x-6'>3</div>
+                        <div className='flex flex-col items-center justify-center -translate-x-6 translate-y-2'>
+                            <p className='text-[8px]'>{ranking[2]?.nome}</p>
+                            <p className='text-[16px] -translate-y-1 text-[#EF0202]'>{ranking[2]?.pontuacao}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <Footer />
             </div>
         </div>
+
     )
 }
+/** 
+ <div class="flex flex-col items-center">
+  <!-- Header de título -->
+  <h2 class="text-2xl font-semibold mb-4">Ranking</h2>
+  
+  <!-- Layout dos Magos em parábola invertida -->
+  <div class="relative flex justify-center items-end">
+    <!-- Mago de Português -->
+    <div class="absolute left-0 transform translate-y-8">
+      <img src="path/to/wizard-portugues.png" alt="Português" class="w-16 h-16 mb-2 mx-auto">
+      <p class="text-center">Português</p>
+    </div>
+
+    <!-- Mago de Matemática -->
+    <div class="absolute left-1/4 transform translate-y-4">
+      <img src="path/to/wizard-matematica.png" alt="Matemática" class="w-16 h-16 mb-2 mx-auto">
+      <p class="text-center">Matemática</p>
+    </div>
+
+    <!-- Mago de História (Central) -->
+    <div class="absolute transform -translate-y-0">
+      <img src="path/to/wizard-historia.png" alt="História" class="w-16 h-16 mb-2 mx-auto">
+      <p class="text-center">História</p>
+    </div>
+
+    <!-- Mago de Geografia -->
+    <div class="absolute right-1/4 transform translate-y-4">
+      <img src="path/to/wizard-geografia.png" alt="Geografia" class="w-16 h-16 mb-2 mx-auto">
+      <p class="text-center">Geografia</p>
+    </div>
+
+    <!-- Mago de Ciências -->
+    <div class="absolute right-0 transform translate-y-8">
+      <img src="path/to/wizard-ciencias.png" alt="Ciências" class="w-16 h-16 mb-2 mx-auto">
+      <p class="text-center">Ciências</p>
+    </div>
+  </div>
+  
+  <!-- Coroa abaixo dos magos -->
+  <div class="mt-8">
+    <img src="path/to/crown.png" alt="Coroa" class="w-12 h-12 mx-auto">
+  </div>
+</div>
+
+ * 
+ * 
+*/

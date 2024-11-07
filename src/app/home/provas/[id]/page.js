@@ -12,18 +12,22 @@ export default function Prova({ params }) {
     const [error, setError] = useState(null)
 
     useEffect(() => {
+        const token = JSON.parse(localStorage.getItem('tokenUser'))
+        console.log(token)
         async function fetchProva() {
             try {
-                const response = await fetch(`${ip}/provas/${resolvedParams.id}`, {
+                const response = await fetch(`${ip}/usuarios/${token.user.id}/provas/${resolvedParams.id}/questoes`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `${token.token}`,
                     }
                 })
 
                 if (!response.ok) throw new Error('Failed to fetch data')
 
                 const data = await response.json()
+                console.log(data)
                 setProva(data)
             } catch (err) {
                 setError(err.message)
@@ -42,13 +46,13 @@ export default function Prova({ params }) {
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
             <div className="border border-gray-300 rounded-lg w-[330px] bg-white">
                 <div className="flex flex-col items-center gap-4">
-                    {prova?.questoes?.map((questao, index) => {
+                    {prova?.map((questao, index) => {
                         const marginLeft = index % 2 === 0 ? 'ml-8' : 'mr-5';
                         const marginTop = index === 0 ? 'mt-10' : '';
-                        const className = questao.marcada ? "s-bubble" : "s-not-bubble";
-
+                        const className = questao.UsuarioQuestaos[0].desbloqueada ? "s-bubble" : "s-not-bubble";
+                        const desbloqueada = questao.UsuarioQuestaos?.[0]?.desbloqueada;
                         return (
-                            questao.marcada ? (
+                            desbloqueada ? (
                                 <Link href={`/home/provas/${resolvedParams.id}/questoes/${index + 1}`} key={index}>
                                     <div className={`${className} ${marginLeft} ${marginTop}`}>
                                         {index + 1}

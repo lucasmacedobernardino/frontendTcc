@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Footer from '../components/footerComponent';
 import Desafio from '../components/desafio';
@@ -11,8 +12,9 @@ export default function Home() {
     const [vidaPonto, setVidaPonto] = useState({ vidas: 0, pontuacao: 0 });
     const [showDialog, setShowDialog] = useState(false);
     const [usuario, setUsuario] = useState(null);
+    const [nomeUsuario, setNomeUsuario] = useState('')
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-
+    const router = useRouter();
 
     const mensagensCarrossel = [
         { texto: "Você é um mago e precisa evoluir!", imagem: "/assets/mago_iniciante.webp" },
@@ -29,9 +31,10 @@ export default function Home() {
         if (usuarioData) {
             const usuarioJSON = JSON.parse(usuarioData);
             setUsuario(usuarioJSON);
+            setNomeUsuario(usuarioJSON.nome)
             vidasPontuacao(usuarioJSON.id);
         }
-    }, []);
+    }, [router]);
 
     async function adicionarUmEntradaUsuario() {
         try {
@@ -66,9 +69,6 @@ export default function Home() {
         }
     }
 
-    function primeiroNome(nomeCompleto) {
-        return nomeCompleto.split(' ')[0];
-    }
 
     async function closeDialog() {
         await adicionarUmEntradaUsuario()
@@ -93,7 +93,7 @@ export default function Home() {
                         <div className="flex flex-col items-center">
                             <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" priority />
                             <h1 className="text-[20px] font-bold" style={{ color: '#735ED9' }}>
-                                {usuario ? primeiroNome(usuario.nome) : ''}
+                                {nomeUsuario}
                             </h1>
                         </div>
                         <div className="flex flex-col items-center">
