@@ -26,7 +26,6 @@ export default function Questao({ params }) {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
                 setQuestao(data);
             } else {
                 console.error('Falha na requisição:', response.statusText);
@@ -61,7 +60,6 @@ export default function Questao({ params }) {
         const usuario = token.user.id;
         const questao1 = questao.id;
         const endpoint = `${ip}/usuarioresposta`;
-        console.log(respostaSelecionada)
         try {
             const response = await fetch(endpoint, {
                 method: 'POST',
@@ -97,7 +95,15 @@ export default function Questao({ params }) {
             case "Você não possui vidas para responder o enigma!":
                 setSrc("/assets/coracao_partido.png");
                 break;
+            case "Você está sem vidas! Por isso não pode responder uma questão.":
+                setDialogMessage("Você não possui vidas para responder o enigma!")
+                setSrc("/assets/coracao_partido.png");
+                break;
             case "Essa foi sua segunda tentativa, Resposta Incorreta, por isso você perdeu uma vida!":
+                setDialogMessage("O mago do mal te tirou uma vida por ter errado o enigma!")
+                setSrc("/assets/mago_mal.png");
+                break;
+            case "Segunda tentativa incorreta, perdeu uma vida!":
                 setDialogMessage("O mago do mal te tirou uma vida por ter errado o enigma!")
                 setSrc("/assets/mago_mal.png");
                 break;
@@ -128,19 +134,32 @@ export default function Questao({ params }) {
     const closeDialog = () => {
         if (dialogMessage === "Você não possui vidas para responder o enigma!") {
             setShowDialog(false);
-            router.push('/home')
-        } else if (dialogMessage === "Essa foi sua segunda tentativa, Resposta Incorreta, por isso você perdeu uma vida!") {
+            router.push('/home');
+        } else if (
+            dialogMessage === "Essa foi sua segunda tentativa, Resposta Incorreta, por isso você perdeu uma vida!" ||
+            dialogMessage === "O mago do mal te tirou uma vida por ter errado o enigma!"
+        ) {
             setShowDialog(false);
             router.push('/home')
-        } else if (dialogMessage === "Resposta Correta! O mago de Português te deu 10 pontos de experiência!" ||
-            "Resposta Correta! O mago de Matemática te deu 10 pontos de experiência!" || "Resposta Correta! O mago de História te deu 10 pontos de experiência!"
-            || "Resposta Correta! O mago de Geografia te deu 10 pontos de experiência!" || "Resposta Correta! O mago de Ciências te deu 10 pontos de experiência!") {
+        } else if (
+            dialogMessage === "Resposta Correta! O mago de Português te deu 10 pontos de experiência!" ||
+            dialogMessage === "Resposta Correta! O mago de Matemática te deu 10 pontos de experiência!" ||
+            dialogMessage === "Resposta Correta! O mago de História te deu 10 pontos de experiência!" ||
+            dialogMessage === "Resposta Correta! O mago de Geografia te deu 10 pontos de experiência!" ||
+            dialogMessage === "Resposta Correta! O mago de Ciências te deu 10 pontos de experiência!"
+        ) {
             setShowDialog(false);
-            router.push('/home')
+            router.push('/home');
+        } else if (
+            dialogMessage === "Você errou a questão, mas não se preocupe! a varinha mágica da sabedoria te deu mais uma chance!" ||
+            dialogMessage === "Primeira tentativa, porém, Resposta Incorreta!"
+        ) {
+            setShowDialog(false);
         } else {
             setShowDialog(false);
         }
     };
+
 
     return (
         <div className="flex justify-start items-center flex-col">

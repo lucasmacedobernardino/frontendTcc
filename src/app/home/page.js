@@ -7,6 +7,7 @@ import Desafio from '../components/desafio';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ip from '../ip';
+import Link from 'next/link';
 
 export default function Home() {
     const [vidaPonto, setVidaPonto] = useState({ vidas: 0, pontuacao: 0 });
@@ -87,8 +88,13 @@ export default function Home() {
 
     return (
         <div className="flex items-center justify-center">
-            <div className="w-[360px] h-[800px]">
-                <div className="flex justify-evenly flex-col border bg-white">
+            <div className=" bg-[#EAF4F9]">
+                <div className="flex justify-evenly flex-col p-7">
+                    <div>
+                        <Link href='/login'>
+                            <Image src='/assets/exit_svg.svg' width={25} height={25} alt='Exit' />
+                        </Link>
+                    </div>
                     <header className="flex justify-around items-center p-3">
                         <div className="flex flex-col items-center">
                             <Image src="/assets/mago.svg" width={70} height={70} alt="avatar" priority />
