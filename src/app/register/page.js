@@ -7,10 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import ip from '../ip';
 import Link from 'next/link';
 export default function Register() {
-    const usuarioCriado = ()=> toast.success("Usuário criado com Sucesso!")
-    const mesmaSenha = ()=> toast.warning("Digite a mesma senha!")
-    const emailJaCadastrado = ()=> toast.warning("Email já cadastrado!")
-    const emailInvalido = ()=> toast.warning("Email Inválido!")
+    const usuarioCriado = () => toast.success("Usuário criado com Sucesso!")
+    const mesmaSenha = () => toast.warning("Digite a mesma senha!")
+    const emailJaCadastrado = () => toast.warning("Email já cadastrado!")
+    const emailInvalido = () => toast.warning("Email Inválido!")
     const handleSubmit = async (event) => {
         event.preventDefault();
         const nome = event.target.nome.value
@@ -18,31 +18,31 @@ export default function Register() {
         const senha = event.target.senha.value;
         const senhaConfirm = event.target.senhaConfirm.value;
         const endpoint = `${ip}/usuarios`;
-        if(senha != senhaConfirm){
+        if (senha != senhaConfirm) {
             mesmaSenha()
-        }else{
+        } else {
             try {
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email, senha, nome}),
+                    body: JSON.stringify({ email, senha, nome }),
                 });
                 if (response.ok) {
                     const sucessData = await response.json()
-                    if (sucessData.message == "Email já cadastrado"){
+                    if (sucessData.message == "Email já cadastrado") {
                         emailJaCadastrado()
                         return
                     }
                     usuarioCriado()
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         router.push('/login')
                     }, 4000)
-                    
+
                 } else {
                     const errorData = await response.json()
-                    if (errorData.message == "Email inválido!"){
+                    if (errorData.message == "Email inválido!") {
                         emailInvalido()
                         return
                     }
@@ -54,20 +54,20 @@ export default function Register() {
                 console.error('Falha ao fazer a requisição:', error);
             }
         }
-        
+
     }
     const router = useRouter();
-    
+
     return (
         <div className="flex items-center justify-center h-screen bg-[#FFF] flex-col">
-            <Image src="/assets/education-white.svg" width={120} height={120} className='bg-[#735ED9] align-middle' />
-            <h1 className="text-center text-[#735ED9] text-5xl my-1 font-bold italic">duolfes</h1>
+            <Image src="/assets/chapeu-de-bruxa-white.svg" width={140} height={140} alt='chapéu de mago branco' priority />
+            <h1 className="text-center text-[#735ED9] text-[48px] my-1 font-bold italic">magicIfes</h1>
             <div className="spinner" />
             <form className='flex flex-col w-60 items-center' onSubmit={handleSubmit}>
-                <InputField label={"Name"} placeholder={"João da Silva"} type={"text"} name={"nome"}/>
-                <InputField label={"E-mail"} placeholder={"exemple@gmail.com"} type={"email"} name={"email"}/>
-                <InputField label={"Password"} placeholder={"Sua senha"} type={"password"} name={"senha"}/>
-                <InputField label={"Confirm password"} placeholder={"*****"} type={"password"} name={"senhaConfirm"}/>
+                <InputField label={"Name"} placeholder={"João da Silva"} type={"text"} name={"nome"} />
+                <InputField label={"E-mail"} placeholder={"exemple@gmail.com"} type={"email"} name={"email"} />
+                <InputField label={"Password"} placeholder={"Sua senha"} type={"password"} name={"senha"} />
+                <InputField label={"Confirm password"} placeholder={"*****"} type={"password"} name={"senhaConfirm"} />
                 <button className='border p-1 bg-[#735ED9] rounded-md text-white mt-5 text-xs shadow-md py-1 px-16 mb-3' type='submit'>
                     Criar conta
                 </button>
