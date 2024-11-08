@@ -1,2 +1,2 @@
-const ip = "http://127.0.0.1:3333"
+const ip = "https://backendtcc-33j3.onrender.com"
 export default ip
