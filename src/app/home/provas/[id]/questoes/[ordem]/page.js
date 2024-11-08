@@ -37,7 +37,7 @@ export default function Questao({ params }) {
 
     useEffect(() => {
         fetchQuestao(resolvedParams.id, resolvedParams.ordem);
-    }, [resolvedParams.ordem]);
+    }, []);
 
     useEffect(() => {
         getDialogImage()
@@ -75,7 +75,6 @@ export default function Questao({ params }) {
 
             if (response.ok) {
                 const resultado = await response.json();
-                console.log(resultado)
                 setDialogMessage(resultado.message);
             } else {
                 const erroMsg = await response.text();
