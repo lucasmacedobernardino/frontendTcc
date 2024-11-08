@@ -16,7 +16,7 @@ export default function Questao({ params }) {
 
 
     const fetchQuestao = async (id, ordem) => {
-        const endpoint = `${ip}/provas/${id}/ordem/${ordem}`;
+        const endpoint = `${ip}/provas/${parseInt(id)}/ordem/${parseInt(ordem)}`;
         try {
             const response = await fetch(endpoint, {
                 method: 'GET',
