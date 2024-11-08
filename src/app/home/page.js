@@ -129,7 +129,7 @@ export default function Home() {
                         <div className="bg-white p-5 rounded-lg shadow-lg text-center w-[300px]">
                             {mensagensCarrossel[currentMessageIndex].imagem ? <Image src={mensagensCarrossel[currentMessageIndex].imagem} width={200} height={200} alt="Imagem do diálogo" className='w-full' /> : <div className='hidden'></div>}
 
-                            <p className="mt-4">{mensagensCarrossel[currentMessageIndex].texto}</p>
+                            <p className="mt-4 text-black">{mensagensCarrossel[currentMessageIndex].texto}</p>
                             <div className="flex justify-between mt-4">
                                 <button onClick={prevMessage} className="bg-gray-300 text-gray-700 p-2 rounded-full">
                                     Anterior
