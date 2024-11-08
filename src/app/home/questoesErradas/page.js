@@ -1,15 +1,16 @@
 'use client'
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import ip from "@/app/ip";
 import Footer from "@/app/components/footerComponent";
 
-
-export default function questoesErradas() {
-    const [QuestaoErrada, setQuestaoErrada] = useState([{}])
-    const token = JSON.parse(localStorage.getItem('tokenUser'))
+export default function QuestoesErradas() {
+    const [QuestaoErrada, setQuestaoErrada] = useState([{}]);
+    const [token, setToken] = useState(null);
     const router = useRouter();
+
+    // Função para buscar questões erradas
     async function fecthQuestaoErrada(id) {
         const endpoint = `${ip}/questaoErrada/${id}`;
         try {
@@ -21,7 +22,7 @@ export default function questoesErradas() {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log(data)
+                console.log(data);
                 setQuestaoErrada(data);
             } else {
                 console.error('Falha na requisição:', response.statusText);
@@ -31,10 +32,16 @@ export default function questoesErradas() {
         }
     }
 
+    // Carregar o token após o componente ser montado (somente no cliente)
     useEffect(() => {
-        fecthQuestaoErrada(token.user.id)
-    }, [])
+        const storedToken = JSON.parse(localStorage.getItem('tokenUser'));
+        if (storedToken) {
+            setToken(storedToken);
+            fecthQuestaoErrada(storedToken.user.id);
+        }
+    }, []); // Executa uma vez quando o componente é montado
 
+    // Função para definir a cor do fundo com base no disciplinaId
     function getBackgroundColor(disciplinaId) {
         switch (disciplinaId) {
             case 1:
@@ -50,6 +57,10 @@ export default function questoesErradas() {
             default:
                 return "#FFFFFF";
         }
+    }
+
+    if (!token) {
+        return <div>Carregando...</div>; // Exibe algo enquanto o token não for carregado
     }
 
     return (
@@ -85,7 +96,6 @@ export default function questoesErradas() {
                                         {`${elemento?.categoria?.nome !== undefined ? elemento.categoria.nome : ''}`}
                                     </p>
                                 </pre>
-
                             </div>
                         )
                     })}
@@ -93,5 +103,5 @@ export default function questoesErradas() {
                 <Footer />
             </div>
         </div>
-    )
+    );
 }
