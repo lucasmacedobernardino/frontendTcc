@@ -164,18 +164,18 @@ export default function Questao({ params }) {
     return (
         <div className="flex justify-start items-center flex-col">
             <div className="flex flex-col justify-center items-center w-[360px]">
-                <div>Questão {resolvedParams.ordem}</div>
-                <pre>{questao?.enunciado}</pre>
+                <div className="text-black">Questão {resolvedParams.ordem}</div>
+                <pre className="text-black">{questao?.enunciado}</pre>
                 {questao.imagem && <Image src={questao.imagem} width={600} height={600} alt="imagem da questão" priority />}
 
                 {[questao.opcao1, questao.opcao2, questao.opcao3, questao.opcao4, questao.opcao5].map((opcao, index) => (
                     <button
                         key={index}
-                        className={`flex border w-full items-center gap-2 p-2 ${selectedOption === index ? 'border-purple-600 bg-violet-100' : ''}`}
+                        className={`text-black flex border w-full items-center gap-2 p-2 ${selectedOption === index ? 'border-purple-600 bg-violet-100' : ''}`}
                         onClick={() => handleOptionClick(index)}
                     >
                         <div
-                            className={`border w-5 h-5 rounded-full flex-shrink-0 ${selectedOption === index ? 'bg-violet-700' : ''}`}
+                            className={`text-black border w-5 h-5 rounded-full flex-shrink-0 ${selectedOption === index ? 'bg-violet-700' : ''}`}
                         ></div>
                         {opcao}
                     </button>
@@ -192,7 +192,7 @@ export default function Questao({ params }) {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-white p-5 rounded-lg shadow-lg text-center w-[300px] flex flex-col justify-center items-center">
                         <Image src={src} width={150} height={150} alt="Imagem do diálogo" className="mb-4" />
-                        <p>{dialogMessage}</p>
+                        <p className="text-black">{dialogMessage}</p>
                         <button
                             className="bg-purple-600 text-white mt-4 p-2 rounded-full w-full"
                             onClick={closeDialog}

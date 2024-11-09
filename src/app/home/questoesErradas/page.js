@@ -83,7 +83,7 @@ export default function QuestoesErradas() {
                                 className="p-2  mb-2 border border-black rounded-2xl"
                             >
                                 <pre>
-                                    <p className="text-[10px]">
+                                    <p className="text-[10px] text-black">
                                         {`Desafio ${elemento?.provaId !== undefined ? elemento.provaId : ''}`}
                                     </p>
                                     <p className="text-[10px]">
