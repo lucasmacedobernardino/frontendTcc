@@ -43,7 +43,7 @@ export default function Ranking() {
                     <div onClick={() => router.push('/home')} className='cursor-pointer'>
                         <Image src="/assets/voltar.png" height={20} width={20} alt="Voltar" priority />
                     </div>
-                    <div className="text-[20px] cursor-default">Ranking</div>
+                    <div className="text-[20px] cursor-default text-black">Ranking</div>
                     <div></div>
                 </header>
                 <div className='mt-3'>
@@ -68,8 +68,8 @@ export default function Ranking() {
                         </div>
                         <div className='text-white w-3 h-3 bg-[#00F1A5] rounded-full text-[8px] flex justify-center translate-y-2 translate-x-6'>2</div>
                         <div className='flex flex-col items-center justify-center translate-x-[51%] translate-y-2'>
-                            <p className='text-[8px]'>{top3[1]?.nome}</p>
-                            <p className='text-[16px] -translate-y-1 text-[#EF0202]'>{top3[1]?.pontuacao}</p>
+                            <p className='text-[8px] text-black'>{top3[1]?.nome}</p>
+                            <p className='text-[16px] -translate-y-1 text-[#EF0202] text-black'>{top3[1]?.pontuacao}</p>
                         </div>
                     </div>
                     <div className='z-20 flex flex-col justify-center items-center'>
@@ -79,8 +79,8 @@ export default function Ranking() {
                         </div>
                         <div className='text-white w-3 h-3 bg-[#E0D81F] rounded-full text-[8px] flex justify-center -translate-y-2'>1</div>
                         <div className='flex flex-col items-center justify-center -translate-y-2'>
-                            <p className='text-[8px]'>{top3[0]?.nome}</p>
-                            <p className='text-[16px] -translate-y-1 text-[#EF0202]'>{top3[0]?.pontuacao}</p>
+                            <p className='text-[8px] text-black'>{top3[0]?.nome}</p>
+                            <p className='text-[16px] -translate-y-1 text-[#EF0202] text-black'>{top3[0]?.pontuacao}</p>
                         </div>
                     </div>
                     <div className='z-10 flex flex-col justify-center items-center'>
@@ -90,8 +90,8 @@ export default function Ranking() {
                         </div>
                         <div className='text-white w-3 h-3 bg-[#2FC0F0] rounded-full text-[8px] flex justify-center translate-y-2 -translate-x-6'>3</div>
                         <div className='flex flex-col items-center justify-center -translate-x-6 translate-y-2'>
-                            <p className='text-[8px]'>{top3[2]?.nome}</p>
-                            <p className='text-[16px] -translate-y-1 text-[#EF0202]'>{top3[2]?.pontuacao}</p>
+                            <p className='text-[8px] text-black'>{top3[2]?.nome}</p>
+                            <p className='text-[16px] -translate-y-1 text-[#EF0202] text-black'>{top3[2]?.pontuacao}</p>
                         </div>
                     </div>
                 </div>
@@ -102,8 +102,8 @@ export default function Ranking() {
                                 <div className='w-12 h-12 bg-white border-[.2rem] border-[#8e8d8d] rounded-full flex justify-center'>
                                     <Image src="/assets/mago.svg" width={33} height={33} alt="avatar" priority />
                                 </div>
-                                <p className='text-[12px]'>{element.nome}</p>
-                                <p className='text-[#EF0202] pr-2'>{element.pontuacao}</p>
+                                <p className='text-[12px] text-black'>{element.nome}</p>
+                                <p className='text-[#EF0202] pr-2 text-black'>{element.pontuacao}</p>
                             </div>
                         </div>)}
                     </div>

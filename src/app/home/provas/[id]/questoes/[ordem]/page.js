@@ -165,7 +165,9 @@ export default function Questao({ params }) {
         <div className="flex justify-start items-center flex-col">
             <div className="flex flex-col justify-center items-center w-[360px]">
                 <div className="text-black">Questão {resolvedParams.ordem}</div>
-                <pre className="text-black">{questao?.enunciado}</pre>
+                <div className="p-3 justify-start items-center">
+                    <pre className="text-black">{questao?.enunciado}</pre>
+                </div>
                 {questao.imagem && <Image src={questao.imagem} width={600} height={600} alt="imagem da questão" priority />}
 
                 {[questao.opcao1, questao.opcao2, questao.opcao3, questao.opcao4, questao.opcao5].map((opcao, index) => (
